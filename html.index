@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sherry K. — Private In-Home Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --obsidian:   #1A1916;
+    --parchment:  #F4F0E8;
+    --linen:      #EAE5DA;
+    --gold:       #C8A96E;
+    --gold-light: #DFC49A;
+    --sandstone:  #4a4035;
+    --forest:     #8a9e8c;
+    --warm-white: #FDFBF7;
+    --dark-text:  #2C2A25;
+    --mid-text:   #3a3028;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--parchment);
+    color: var(--dark-text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    mix-blend-mode: normal;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    opacity: 0.5;
+  }
+  body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring {
+    width: 52px; height: 52px; opacity: 0.3;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 60px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(138, 158, 140, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid rgba(200, 169, 110, 0.15);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: #1a2a1c;
+    text-decoration: none;
+  }
+  .nav-logo em { font-style: italic; }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1a2a1c;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--obsidian);
+    background: var(--gold);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 1px;
+    cursor: none;
+    transition: background 0.2s, opacity 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-right-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #9aae9c 0%, #8a9e8c 60%);
+  }
+  .hero-right-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(200,169,110,0.6) 40px, rgba(200,169,110,0.6) 40.5px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(200,169,110,0.6) 40px, rgba(200,169,110,0.6) 40.5px);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-badge-line {
+    width: 28px;
+    height: 0.5px;
+    background: var(--gold);
+  }
+  .hero-badge-text {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1a2a1c;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(48px, 5.5vw, 72px);
+    line-height: 1.05;
+    color: #1a2a1c;
+    letter-spacing: 0.01em;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.4s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-body {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.85;
+    color: #1a2a1c;
+    max-width: 420px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.8s forwards;
+  }
+  .btn-primary {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--obsidian);
+    background: var(--gold);
+    border: none;
+    padding: 16px 36px;
+    border-radius: 1px;
+    cursor: none;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-ghost {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1a2a1c;
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(26,42,28,0.4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--gold-light); border-color: var(--gold); }
+
+  /* Hero right — credential float */
+  .hero-credential {
+    position: relative;
+    z-index: 2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+  .cred-card {
+    background: rgba(255,255,255,0.2);
+    border: 0.5px solid rgba(200,169,110,0.4);
+    border-radius: 3px;
+    padding: 24px 28px;
+    position: relative;
+  }
+  .cred-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--gold);
+    border-radius: 1px;
+    opacity: 0.6;
+  }
+  .cred-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .cred-label {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #1a2a1c;
+  }
+  .cred-sub {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1a2a1c;
+    margin-top: 6px;
+    line-height: 1.6;
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 120px 60px;
+  }
+  .section-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .eyebrow-line {
+    width: 32px;
+    height: 0.5px;
+    background: var(--gold);
+  }
+  .eyebrow-text {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1.1;
+    color: var(--dark-text);
+    letter-spacing: 0.01em;
+  }
+  .section-heading em { font-style: italic; }
+
+  /* ── INTRO SECTION ── */
+  .intro {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .intro-text .section-heading { margin-bottom: 28px; }
+  .intro-body {
+    font-weight: 300;
+    font-size: 15.5px;
+    line-height: 1.9;
+    color: var(--mid-text);
+    margin-bottom: 20px;
+  }
+  .intro-body:last-of-type { margin-bottom: 36px; }
+  .intro-aside {
+    border-left: 1.5px solid var(--gold);
+    padding-left: 28px;
+  }
+  .intro-aside-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--dark-text);
+    margin-bottom: 20px;
+  }
+  .intro-aside-body {
+    font-size: 15px;
+    font-weight: 400;
+    color: #3a3028;
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+  .lang-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--linen);
+    border: 0.5px solid rgba(200,169,110,0.3);
+    border-radius: 2px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #3a3028;
+  }
+  .lang-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* ── HIGHLIGHTS SECTION ── */
+  .highlights {
+    background: var(--forest);
+    position: relative;
+    overflow: hidden;
+  }
+  .highlights::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .highlights .section-heading { color: #1a2a1c; margin-bottom: 72px; }
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(200,169,110,0.1);
+    border: 0.5px solid rgba(200,169,110,0.1);
+  }
+  .highlight-cell {
+    padding: 40px 36px;
+    background: var(--forest);
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .highlight-cell::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .highlight-cell:hover { background: #7d9180; }
+  .highlight-cell:hover::after { transform: scaleX(1); }
+  .highlight-icon {
+    width: 32px; height: 32px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+  }
+  .highlight-icon svg { width: 100%; height: 100%; }
+  .highlight-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 19px;
+    color: #1a2a1c;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .highlight-body {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #1a2a1c;
+  }
+
+  /* ── SERVICES SECTION ── */
+  .services {
+    background: var(--parchment);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .service-card {
+    padding: 40px 36px 44px;
+    background: var(--warm-white);
+    border: 0.5px solid rgba(138,126,106,0.2);
+    border-radius: 2px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(26,25,22,0.07);
+  }
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 52px;
+    line-height: 1;
+    color: rgba(200,169,110,0.18);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 21px;
+    color: var(--dark-text);
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+  .service-body {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #3a3028;
+  }
+  .service-line {
+    position: absolute;
+    top: 0; left: 36px; right: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  /* ── CREDENTIALS ── */
+  .credentials {
+    background: var(--linen);
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .credentials-left .section-heading { margin-bottom: 24px; }
+  .credentials-desc {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.85;
+    color: #3a3028;
+    margin-bottom: 40px;
+  }
+  .cert-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cert-pill {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #3a3028;
+    border: 0.5px solid rgba(138,126,106,0.4);
+    border-radius: 20px;
+    padding: 7px 16px;
+    background: rgba(255,255,255,0.6);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .cert-pill:hover { border-color: var(--gold); color: var(--dark-text); }
+  .credentials-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cred-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 0.5px solid rgba(138,126,106,0.15);
+  }
+  .cred-item:first-child { border-top: 0.5px solid rgba(138,126,106,0.15); }
+  .cred-bullet {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .cred-text {
+    font-size: 15.5px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #1a1a18;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--forest);
+    text-align: center;
+    padding: 140px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-bg-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(100px, 18vw, 220px);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(200,169,110,0.045);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .contact-inner { position: relative; z-index: 2; }
+  .contact .section-eyebrow { justify-content: center; }
+  .contact-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 64px);
+    color: #1a2a1c;
+    line-height: 1.1;
+    margin: 20px 0 20px;
+    letter-spacing: 0.01em;
+  }
+  .contact-heading em { font-style: italic; color: var(--gold-light); }
+  .contact-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: #1a2a1c;
+    margin-bottom: 56px;
+    line-height: 1.7;
+    max-width: 380px;
+    margin-left: auto; margin-right: auto;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 480px;
+    margin: 0 auto 40px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(200,169,110,0.2);
+    border-radius: 1px;
+    padding: 16px 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: #1a2a1c;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: none;
+  }
+  .form-input::placeholder { color: #3a5a3c; }
+  .form-input:focus {
+    border-color: rgba(200,169,110,0.5);
+    background: rgba(255,255,255,0.06);
+  }
+  textarea.form-input { resize: none; height: 120px; }
+  .contact-note {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1a2a1c;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #7a8e7c;
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 0.5px solid rgba(200,169,110,0.1);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    color: #1a2a1c;
+  }
+  .footer-logo em { font-style: italic; }
+  .footer-note {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1a2a1c;
+    letter-spacing: 0.04em;
+  }
+  .footer-lang {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1a2a1c;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.25), transparent);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+
+  /* ── NAV TABS ACTIVE STATE ── */
+  .nav-tab {
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .nav-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .nav-tab.active {
+    color: var(--gold-light) !important;
+  }
+  .nav-tab.active::after {
+    transform: scaleX(1);
+  }
+  .nav-tab:hover::after {
+    transform: scaleX(0.6);
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 120px 36px 80px; }
+    section { padding: 80px 28px; }
+    .intro { grid-template-columns: 1fr; gap: 52px; }
+    .highlights-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .credentials { grid-template-columns: 1fr; gap: 48px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">Sherry <em>K.</em></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" class="nav-tab" data-section="about">About</a></li>
+    <li><a href="#services" class="nav-tab" data-section="services">Highlights</a></li>
+    <li><a href="#services-offered" class="nav-tab" data-section="services-offered">Services</a></li>
+    <li><a href="#credentials" class="nav-tab" data-section="credentials">Credentials</a></li>
+    <li><a href="#contact" class="nav-tab" data-section="contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Consultation</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <div class="hero-badge-line"></div>
+      <span class="hero-badge-text">Private In-Home Education · Toronto GTA</span>
+    </div>
+    <h1 class="hero-title">
+      Empowering<br>every child<br>to <em>thrive.</em>
+    </h1>
+    <p class="hero-body">
+      Personalised, compassionate, expert in-home education for children with diverse learning needs — delivered with patience, structure, and genuine care.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Begin the Conversation</a>
+      <a href="#services-offered" class="btn-ghost" onclick="event.preventDefault(); document.getElementById('services-offered').scrollIntoView({behavior:'smooth'});">Learn More</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-bg"></div>
+    <div class="hero-right-pattern"></div>
+    <div class="hero-credential">
+      <div class="cred-card">
+        <div class="cred-number">7+</div>
+        <div class="cred-label">Years of dedicated experience</div>
+        <div class="cred-sub">Private & public education settings</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-number">CPI</div>
+        <div class="cred-label">Certified Crisis Prevention Intervention</div>
+        <div class="cred-sub">+ First Aid & CPR-C certified</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-number">2</div>
+        <div class="cred-label">Languages — English & Farsi</div>
+        <div class="cred-sub">Supporting bilingual families with ease</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- About / Intro -->
+<section class="intro" id="about">
+  <div class="intro-text">
+    <div class="section-eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">About Sherry</span>
+    </div>
+    <h2 class="section-heading reveal reveal-delay-1">
+      Where expertise<br>meets <em>genuine care.</em>
+    </h2>
+    <p class="intro-body reveal reveal-delay-2">
+      Welcome to a premier in-home educational support service led by a highly experienced and dedicated educator. With over seven years of proven success across both private and public settings, Sherry specialises in supporting children with diverse learning needs — including special education, behavioural challenges, and early academic development.
+    </p>
+    <p class="intro-body reveal reveal-delay-3">
+      Each programme is thoughtfully tailored to meet your child's unique strengths, learning style, and goals. Through patience, structured guidance, and evidence-based strategies, children build confidence, independence, and meaningful academic progress — all within the comfort and safety of their home.
+    </p>
+    <a href="#contact" class="btn-primary reveal reveal-delay-4">Schedule a Consultation</a>
+  </div>
+  <div class="intro-aside reveal reveal-delay-2">
+    <blockquote class="intro-aside-quote">
+      "Whether your child needs after-school support, behavioural guidance, or personalised instruction — you can trust a professional deeply committed to every child's success."
+    </blockquote>
+    <p class="intro-aside-body">
+      Sherry brings a rare combination of formal training, hands-on experience, and a warm, relationship-centred approach that puts both children and families at ease from day one.
+    </p>
+    <div class="lang-badge">
+      <div class="lang-dot"></div>
+      Fluent in English &amp; Farsi
+    </div>
+  </div>
+</section>
+
+<!-- Highlights -->
+<section class="highlights" id="services">
+  <div class="section-eyebrow reveal" style="margin-bottom: 16px;">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">What Sets Sherry Apart</span>
+  </div>
+  <h2 class="section-heading reveal reveal-delay-1">Professional <em>highlights.</em></h2>
+
+  <div class="highlights-grid" style="margin-top: 56px;">
+    <div class="highlight-cell reveal">
+      <div class="highlight-title">Behavioural & Learning Support</div>
+      <p class="highlight-body">Specialised in working with children facing behavioural and learning challenges, using proven, compassionate techniques to encourage growth and regulation.</p>
+    </div>
+    <div class="highlight-cell reveal reveal-delay-1">
+      <div class="highlight-title">Individualized Education Plans</div>
+      <p class="highlight-body">Strong expertise in developing and executing IEPs — creating measurable, meaningful goals in close collaboration with families and multidisciplinary teams.</p>
+    </div>
+    <div class="highlight-cell reveal reveal-delay-2">
+      <div class="highlight-title">Crisis Prevention Certified</div>
+      <p class="highlight-body">Certified in CPI (Crisis Prevention Intervention) and First Aid & CPR-C, ensuring a safe, supported environment for children with complex needs.</p>
+    </div>
+    <div class="highlight-cell reveal reveal-delay-1">
+      <div class="highlight-title">Academic Tutoring</div>
+      <p class="highlight-body">Targeted support in Mathematics for Grades 1–5, with an encouraging, structured approach that builds true comprehension and lasting confidence.</p>
+    </div>
+    <div class="highlight-cell reveal reveal-delay-2">
+      <div class="highlight-title">Creative Arts Education</div>
+      <p class="highlight-body">Instruction in painting and sketching as enrichment tools — nurturing self-expression, fine motor skills, and creative thinking alongside academic work.</p>
+    </div>
+    <div class="highlight-cell reveal reveal-delay-3">
+      <div class="highlight-title">Inclusive, Family-Centred</div>
+      <p class="highlight-body">Proven ability to build trusting relationships with both students and families, creating a collaborative, inclusive environment where every child feels seen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services" id="services-offered">
+  <div class="section-eyebrow reveal">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Services Offered</span>
+  </div>
+  <h2 class="section-heading reveal reveal-delay-1">Tailored support,<br><em>at home.</em></h2>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-line"></div>
+      <div class="service-number">01</div>
+      <div class="service-title">Special Education Support</div>
+      <p class="service-body">Comprehensive in-home support for children with learning differences, developmental delays, or special education needs — structured around each child's unique profile and IEP goals.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-line"></div>
+      <div class="service-number">02</div>
+      <div class="service-title">Behavioural Guidance</div>
+      <p class="service-body">Evidence-based behavioural support using CPI-certified strategies — helping children develop self-regulation, reduce challenging behaviours, and build positive habits.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-line"></div>
+      <div class="service-number">03</div>
+      <div class="service-title">After-School Academic Support</div>
+      <p class="service-body">Targeted tutoring in Mathematics (Grades 1–5) and general academic reinforcement, delivered in a calm, structured home environment that encourages genuine learning.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-line"></div>
+      <div class="service-number">04</div>
+      <div class="service-title">Early Childhood Development</div>
+      <p class="service-body">Personalised programmes rooted in early childhood education principles — supporting foundational skills in language, cognition, social interaction, and independence.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-line"></div>
+      <div class="service-number">05</div>
+      <div class="service-title">Creative Arts Enrichment</div>
+      <p class="service-body">Painting and sketching instruction as a complement to academic work — fostering creativity, emotional expression, fine motor development, and a love of making.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-line"></div>
+      <div class="service-number">06</div>
+      <div class="service-title">Family Collaboration</div>
+      <p class="service-body">Ongoing partnership with parents, teachers, and support teams — ensuring alignment, transparent progress updates, and a consistent approach across all learning environments.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Credentials -->
+<section class="credentials" id="credentials">
+  <div class="credentials-left">
+    <div class="section-eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Qualifications</span>
+    </div>
+    <h2 class="section-heading reveal reveal-delay-1">Credentials &amp;<br><em>expertise.</em></h2>
+    <p class="credentials-desc reveal reveal-delay-2">
+      Sherry brings a depth of formal training, certification, and lived experience that sets a new standard for private in-home education in the GTA.
+    </p>
+    <div class="cert-pills reveal reveal-delay-3">
+      <span class="cert-pill">CPI Certified</span>
+      <span class="cert-pill">First Aid & CPR-C</span>
+      <span class="cert-pill">Special Education</span>
+      <span class="cert-pill">IEP Specialist</span>
+      <span class="cert-pill">Early Childhood Ed.</span>
+      <span class="cert-pill">Behaviour Management</span>
+      <span class="cert-pill">English · Farsi</span>
+    </div>
+  </div>
+  <div class="credentials-list">
+    <div class="cred-item reveal">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">7+ years of hands-on experience in education and special needs support across private and public settings</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-1">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Specialised in working with children with behavioural and learning challenges</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-2">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Certified in CPI (Crisis Prevention Intervention) and First Aid & CPR-C</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-1">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Strong expertise in behaviour management and individualized education plans (IEPs)</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-2">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Proven ability to build positive, trusting relationships with students and families</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-3">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Experience collaborating with teachers, parents, and multidisciplinary teams</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-1">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Skilled in creating inclusive, safe, and engaging learning environments</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-2">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Academic support in Mathematics (Grades 1–5) and creative arts (painting & sketching)</span>
+    </div>
+    <div class="cred-item reveal reveal-delay-3">
+      <div class="cred-bullet"></div>
+      <span class="cred-text">Background in Early Childhood Education and Behavioural Techniques</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-bg-text">Begin</div>
+  <div class="contact-inner">
+    <div class="section-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Get in Touch</span>
+    </div>
+    <h2 class="contact-heading">Let's find the right<br><em>fit for your child.</em></h2>
+    <p class="contact-sub">Every child is different. Reach out to begin a confidential conversation about how Sherry can support your family.</p>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <input type="text" class="form-input" placeholder="Parent / Guardian Name" required>
+        <input type="email" class="form-input" placeholder="Email Address" required>
+      </div>
+      <input type="text" class="form-input" placeholder="Child's Age & Grade">
+      <textarea class="form-input" placeholder="Tell us briefly about your child's needs..."></textarea>
+      <button type="submit" class="btn-primary" style="cursor:none; border:none; width:100%; padding: 18px;">Send Message</button>
+    </form>
+    <p class="contact-note">All enquiries are handled with complete discretion.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">Sherry <em>K.</em></div>
+  <div class="footer-note">© 2025 · Private In-Home Education · Toronto GTA</div>
+  <div class="footer-lang">English · فارسی</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Message Sent — Thank You';
+    btn.style.background = '#5a7a5e';
+    btn.style.cursor = 'none';
+    setTimeout(() => {
+      btn.textContent = 'Send Message';
+      btn.style.background = '';
+      e.target.reset();
+    }, 4000);
+  }
+
+
+  // Scroll-spy: highlight active nav tab
+  const sections = ['about', 'services', 'services-offered', 'credentials', 'contact'];
+  const navTabs = document.querySelectorAll('.nav-tab');
+
+  function updateActiveTab() {
+    let current = '';
+    const offset = 100;
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY + offset >= el.offsetTop) {
+        current = id;
+      }
+    });
+    navTabs.forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.section === current);
+    });
+  }
+  window.addEventListener('scroll', updateActiveTab, { passive: true });
+  updateActiveTab();
+
+  // Nav background on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.style.borderBottomColor = 'rgba(200,169,110,0.3)';
+    } else {
+      nav.style.borderBottomColor = 'rgba(200,169,110,0.15)';
+    }
+  });
+</script>
+</body>
+</html>
